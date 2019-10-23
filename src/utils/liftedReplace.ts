@@ -1,4 +1,4 @@
-import { lift } from "./liftFunction";
+import { lift } from "./lift";
 
 const replaceMultiple = replacements => target =>
   replacements.reduce((acc, args) => {

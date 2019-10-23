@@ -53,7 +53,7 @@ exports.isAuthId = (value) => `auth.uid == ${value}`;
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
  */
-exports.data = "data.val()";
+exports.data = (child) => `data.${child ? `child('${child}').` : ""}val()`;
 /**
  * returns the _value_ of the **new** data at the current database path
  */

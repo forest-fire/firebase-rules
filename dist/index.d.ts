@@ -1,9 +1,9 @@
-import { IDictionary } from "common-types";
-/**
- * **createRules**
- *
- * Creates a JSON rule structure from _Rules dictionary_ that can be used by
- * **Firebase**. This function will always return the JSON structure but if a
- * _filepath_ is included it will also write the JSON to the filesystem.
- */
-export declare function createRules(rules: IDictionary, filepath?: string): string;
+export * from "./createRules";
+export { buildRules } from "./utils/buildRules";
+export * from "./utils/getRelativeRoot";
+export * from "./utils/ifCondition";
+export * from "./utils/jsonArr";
+export * from "./utils/liftedReplace";
+export * from "./helpers/common";
+export * from "./helpers/conditions";
+export * from "./helpers/crud";

@@ -1,6 +1,9 @@
-<a align="center" href="https://github.com/firebase-toolbelt/firebase-toolbelt"><img width="100%" src="https://image.ibb.co/iWSg8k/Firebase_Rules.png" alt="Firebase Rules" border="0" /></a>
+# Firebase Rules
 
-> Make your Firebase database rules readable and scalable. Using only javascript.
+> Make your Firebase database rules readable and scalable. Using only typescript/javascript.
+
+This library was forked from [firebase-toolbelt/firebase-rules](https://github.com/firebase-toolbelt/firebase-rules) and converted to Typescript. Subtle parts of the API
+have been improved to allow for 
 
 ## Table of Contents
 
@@ -44,30 +47,30 @@ The user must be able to create and update his profile.
 Other users must be able to see his profile.
 No users are ever removed from our app.
 
-```javascript
+```typescript
 // ./rules/modules/users.js
 
-const { ifCondition } = require('firebase-rules/helpers/conditions');
-const {
+import {
   isAuth,
   isAuthId,
   newDataExists,
   hasChildren,
   isString,
-  validate
-} = require('firebase-rules/helpers/common');
+  validate,
+  ifCondition
+} from 'firebase-rules';
 
 const isUserAndIsNotRemoving = ifCondition(
-  newDataExists,
+  newDataExists(),
   isAuthId('$userId'),
   false
 );
 
-module.exports = {
+export default {
   'users/$userId': {
     read: isAuth,
     write: isUserAndIsNotRemoving,
-    validate: hasChildren(['firstName'])
+    validate: hasChildren('firstName')
   },
   'users/$userId/firstName': validate(isString),
   'users/$userId/$invalidProp': validate(false)
@@ -78,10 +81,10 @@ Next we can build our post object rules.
 Any user can create posts. Only the post's creator may update or remove it.
 Posts can be read by any of our app's users.
 
-```javascript
+```typescript
 // ./rules/modules/posts.js
 
-const {
+import {
   isAuth,
   isAuthId,
   isString,
@@ -89,13 +92,13 @@ const {
   newProp,
   hasChildren,
   validate
-} = require('firebase-rules/helpers/common');
+} from 'firebase-rules/helpers/common';
 
-module.exports = {
+export default {
   'posts/$postId': {
     read: isAuth,
     write: isAuthId(newProp('createdBy')),
-    validate: hasChildren(['title', 'body', 'createdAt', 'createdBy'])
+    validate: hasChildren('title', 'body', 'createdAt', 'createdBy')
   },
   'posts/$postId/title': validate(isString),
   'posts/$postId/body': validate(isString),
@@ -110,13 +113,13 @@ Now let's export this rules so we can import them to firebase.
 ```javascript
 // ./rules/index.js
 
-const createRules = require('firebase-rules');
+import { createRule } from 'firebase-rules';
+import { users, posts } from './modules';
 
 createRules({
-  ...require('./modules/users'),
-  ...require('./modules/posts')
+  ...users,
+  ...posts
 }, 'database.rules.json');
-
 ```
 
 Done! There is now a file named `database.rules.json` in our app's root folder.
@@ -152,7 +155,7 @@ ifCondition(
 Any of the passed conditions must be true for the rule to be accepted.
 **It might also receive an array instead of a list of arguments**.
 
-```javascript
+```typescript
 anyCondition(
   thisMustBeTrue,
   OR_thisMustBeTrue,
@@ -166,7 +169,7 @@ anyCondition(
 Any of the passed conditions must be true for the rule to be accepted.
 **It might also receive an array instead of a list of arguments**.
 
-```javascript
+```typescript
 everyCondition(
   thisMustBeTrue,
   AND_thisTooMustBeTrue,
@@ -179,50 +182,50 @@ everyCondition(
 
 Our CRUD helpers makes it easy to check for different rules in case of create/update/delete situations.
 
-```javascript
+```typescript
 onCreate( checkIfAllChildrenArePresent ),
 onUpdate( checkIfNoRequiredChildrenAreRemoved ),
 onDelete( checkIfUserCanDeleteThis )
 ```
 
-Not that `onDelete` is not called on `validate` rules since firebase bypasses validations on null values.
+Note that `onDelete` is not called on `validate` rules since firebase bypasses validations on null values.
 
 ### Common
 
 We also provide a lot of common snippets so you won't have to redo the basics.
 
-**auth**
+#### Authorization
 
-```javascript
+```typescript
 isAuth
 isAuthId(any)
 ```
 
 e.g. any authenticated user can read any post but only the owner can update it.
 
-```javascript
+```typescript
 'posts/$userId/$postId':
   read: isAuth                // 'auth.uid != null',
   write: isAuthId('$userId')  // 'auth.uid == $userId'
 ```
 
-**data**
+#### Data
 
-```javascript
-data
-isData(any)
-dataExists
-dataIsEmpty
+```typescript
+data(child?: string)
+isValue(value: string | number | boolean, childPath?: string)
+dataExists(child?: string)
+dataDoesNotExist(child?: string)
 
-newData
-isNewData(any)
-newDataExists
-newDataIsEmpty
+newData(child?: string)
+isNewValue(value: string | number | boolean, childPath?: string)
+newDataExists(child?: string)
+newDataDoesNotExist(child?: string)
 ```
 
 e.g. the path can only be created but not updated
 
-```javascript
+```typescript
 $path:
   write: everyCondition( dataIsEmpty, newDataExists )
   // data.val() == null && newData.val() != null

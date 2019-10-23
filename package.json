@@ -5,7 +5,8 @@
   "homepage": "https://github.com/tasking/firebase-rules",
   "author": "Georges Boris",
   "license": "BSD-2-Clause",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -P tsconfig.cjs.json",
     "watch": "tsc -P tsconfig.cjs.json --watch",

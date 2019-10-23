@@ -42,7 +42,7 @@ export declare const isAuthId: (value: string) => string;
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
  */
-export declare const data = "data.val()";
+export declare const data: (child?: string) => string;
 /**
  * returns the _value_ of the **new** data at the current database path
  */

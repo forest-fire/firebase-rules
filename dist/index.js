@@ -1,19 +1,16 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const buildRules_1 = require("./utils/buildRules");
-const files_1 = require("./utils/files");
-/**
- * **createRules**
- *
- * Creates a JSON rule structure from _Rules dictionary_ that can be used by
- * **Firebase**. This function will always return the JSON structure but if a
- * _filepath_ is included it will also write the JSON to the filesystem.
- */
-function createRules(rules, filepath) {
-    const builtRules = buildRules_1.buildRules(rules);
-    if (filepath)
-        files_1.writeJson(filepath, builtRules).catch(console.log);
-    return builtRules;
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-exports.createRules = createRules;
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./createRules"));
+var buildRules_1 = require("./utils/buildRules");
+exports.buildRules = buildRules_1.buildRules;
+__export(require("./utils/getRelativeRoot"));
+__export(require("./utils/ifCondition"));
+__export(require("./utils/jsonArr"));
+__export(require("./utils/liftedReplace"));
+__export(require("./helpers/common"));
+__export(require("./helpers/conditions"));
+__export(require("./helpers/crud"));
 //# sourceMappingURL=index.js.map

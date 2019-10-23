@@ -1,4 +1,4 @@
-import { lift } from "./liftFunction";
+import { lift } from "./lift";
 
 test("liftFunction - when passed a normal value - it should execute the first function at once", () => {
   const result = lift(x => x + 1)(1);

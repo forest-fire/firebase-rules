@@ -59,7 +59,9 @@ export const isAuthId = (value: string) => `auth.uid == ${value}`;
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
  */
-export const data = "data.val()";
+export const data = (child?: string) =>
+  `data.${child ? `child('${child}').` : ""}val()`;
+
 /**
  * returns the _value_ of the **new** data at the current database path
  */
