@@ -70,6 +70,12 @@ export declare const dataExists: (child?: string) => string;
  * provide a child path to test areas deeper than the current path.
  */
 export declare const dataDoesNotExist: (child?: string) => string;
+/**
+ * **newDataExists**
+ *
+ * Tests whether there is data at the given path of **newData**; you may also optionally
+ * provide a child path to test areas deeper than the current path.
+ */
 export declare const newDataExists: (child?: string) => string;
 /**
  * **newDataDoesNotExist**

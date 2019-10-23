@@ -115,6 +115,12 @@ export const dataExists = (child?: string) => _exists(child, false, false);
  */
 export const dataDoesNotExist = (child?: string) => _exists(child, false, true);
 
+/**
+ * **newDataExists**
+ *
+ * Tests whether there is data at the given path of **newData**; you may also optionally
+ * provide a child path to test areas deeper than the current path.
+ */
 export const newDataExists = (child?: string) => _exists(child, true, false);
 
 /**

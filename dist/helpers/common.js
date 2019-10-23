@@ -91,6 +91,12 @@ exports.dataExists = (child) => _exists(child, false, false);
  * provide a child path to test areas deeper than the current path.
  */
 exports.dataDoesNotExist = (child) => _exists(child, false, true);
+/**
+ * **newDataExists**
+ *
+ * Tests whether there is data at the given path of **newData**; you may also optionally
+ * provide a child path to test areas deeper than the current path.
+ */
 exports.newDataExists = (child) => _exists(child, true, false);
 /**
  * **newDataDoesNotExist**
