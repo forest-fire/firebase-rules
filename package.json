@@ -7,6 +7,8 @@
   "license": "BSD-2-Clause",
   "main": "src/index.js",
   "scripts": {
+    "build": "tsc -P tsconfig.cjs.json",
+    "watch": "tsc -P tsconfig.cjs.json --watch",
     "test": "jest",
     "start": "jest --watch"
   },
@@ -18,10 +20,13 @@
     "url": "https://github.com/tasking/firebase-rules/issues"
   },
   "dependencies": {
-    "jsonfile-promised": "0.0.1",
+    "common-types": "^1.12.12",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "@types/lodash": "^4.14.144",
+    "@types/node": "^10.14.0",
     "jest": "^21.1.0",
     "targaryen": "^3.0.2"
   }

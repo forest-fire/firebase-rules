@@ -2,6 +2,33 @@
 # yarn lockfile v1
 
 
+"@types/jest-diff@*":
+  version "20.0.1"
+  resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
+  integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
+
+"@types/jest@^24.0.19":
+  version "24.0.19"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.19.tgz#f7036058d2a5844fe922609187c0ad8be430aff5"
+  integrity sha512-YYiqfSjocv7lk5H/T+v5MjATYjaTMsUkbDnjGqSMoO88jWdtJXJV4ST/7DKZcoMHMBvB2SeSfyOzZfkxXHR5xg==
+  dependencies:
+    "@types/jest-diff" "*"
+
+"@types/json-schema@^7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.3.tgz#bdfd69d61e464dcc81b25159c270d75a73c1a636"
+  integrity sha512-Il2DtDVRGDcqjDtE+rF8iqg1CArehSK84HZJCT7AMITlyXRBpuPhqGLDQMowraqqu1coEaimg4ZOqggt6L6L+A==
+
+"@types/lodash@^4.14.144":
+  version "4.14.144"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.144.tgz#12e57fc99064bce45e5ab3c8bc4783feb75eab8e"
+  integrity sha512-ogI4g9W5qIQQUhXAclq6zhqgqNUr7UlFaqDHbch7WLSLeeM/7d3CRaw7GLajxvyFvhJqw4Rpcz5bhoaYtIx6Tg==
+
+"@types/node@^10.14.0":
+  version "10.14.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.0.tgz#1c297530428c6f4e0a0a3222f5b44745669aa9f7"
+  integrity sha512-1UhSMMDix7bVdUeqtZERQQyJr3QuFoN5X5APtpIooGkumE3crPaeq7UgFeJNjGD8yCQ8od8PzRkgptR5+x327Q==
+
 abab@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -446,6 +473,13 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
+common-types@^1.12.12:
+  version "1.12.12"
+  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.12.12.tgz#b9bd34d9b2e89f4a7bc4da028c5a7474a41708f0"
+  integrity sha512-HJgl3BmSRvNWEkmy51s8gbZYj4P0nxgL6HUL4opBERK9yRj5mkf7XtajZIXFhhfmc2qkNWOWTrrMFLPp1MXnGw==
+  dependencies:
+    "@types/json-schema" "^7.0.3"
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -860,7 +894,7 @@ globals@^9.18.0:
   version "9.18.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.18.0.tgz#aa3896b3e69b487f17e31ed2143d69a8e30c2d8a"
 
-graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.1.11, graceful-fs@^4.1.2:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -1468,18 +1502,6 @@ json-stringify-safe@~5.0.1:
 json5@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
-
-jsonfile-promised@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/jsonfile-promised/-/jsonfile-promised-0.0.1.tgz#5c8bafc055c3cc93a7413eb8d62634eaa4de54b8"
-  dependencies:
-    jsonfile "^2.3.1"
-
-jsonfile@^2.3.1:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
-  optionalDependencies:
-    graceful-fs "^4.1.6"
 
 jsonify@~0.0.0:
   version "0.0.0"
