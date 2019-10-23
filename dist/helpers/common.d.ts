@@ -25,19 +25,6 @@ export declare const toData: (value: any) => any;
  */
 export declare const toNewData: (value: any) => any;
 /**
- * Logical test that returns `true` if the user is authenticated
- * (aka, has a `uid` defined)
- */
-export declare const isAuth = "auth.uid != null";
-/**
- * **isAuthId**
- *
- * Tests whether a particular user is logged in
- *
- * @param value the `uid` to test for
- */
-export declare const isAuthId: (value: string) => string;
-/**
  * **data**
  *
  * returns the _value_ (aka, `data.val()`) of the current database path

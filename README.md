@@ -3,7 +3,8 @@
 > Make your Firebase database rules readable and scalable. Using only typescript/javascript.
 
 This library was forked from [firebase-toolbelt/firebase-rules](https://github.com/firebase-toolbelt/firebase-rules) and converted to Typescript. Subtle parts of the API
-have been improved to allow for 
+have been improved to allow for greater flexibility. Also, most of the exposed API is now
+provided as function rather than just static constants.
 
 ## Table of Contents
 
@@ -110,9 +111,7 @@ export default {
 
 Now let's export this rules so we can import them to firebase.
 
-```javascript
-// ./rules/index.js
-
+```typescript
 import { createRule } from 'firebase-rules';
 import { users, posts } from './modules';
 
@@ -134,7 +133,7 @@ We include many helpers that are commonly used when building a firebase ruleset.
 
 Using our conditions helpers will make writing your code more like writing normal code logic.
 
-#### ifCondition
+#### ifOrElse
 
 If the first condition is true, the second condition is checked.
 If the first condition is false, the third condition is checked.
@@ -143,7 +142,7 @@ It works much like a ternary operator.
 If the third condition is not provided, it defaults to 'false'.
 
 ```javascript
-ifCondition(
+ifOrElse(
   ifUserIsAuth,
   alsoCheckIfHeIsValid,
   otherwiseCheckOtherCondition
@@ -188,7 +187,7 @@ onUpdate( checkIfNoRequiredChildrenAreRemoved ),
 onDelete( checkIfUserCanDeleteThis )
 ```
 
-Note that `onDelete` is not called on `validate` rules since firebase bypasses validations on null values.
+> Note that `onDelete` is not called on `validate` rules since firebase bypasses validations on null values.
 
 ### Common
 
@@ -196,17 +195,25 @@ We also provide a lot of common snippets so you won't have to redo the basics.
 
 #### Authorization
 
+Functions include:
+
 ```typescript
-isAuth
-isAuthId(any)
+isLoggedIn()
+isUser(uid: string)
+hasCustomClaim(claim: string)
+hasEmail()
+emailMatches(regEx: string)
+hasVerifiedEmail()
+hasPhoneNumber()
 ```
 
-e.g. any authenticated user can read any post but only the owner can update it.
+So if you wanted to ensure all logged in users can _read_ but you
+can only _write_ to posts which you own:
 
 ```typescript
 'posts/$userId/$postId':
-  read: isAuth                // 'auth.uid != null',
-  write: isAuthId('$userId')  // 'auth.uid == $userId'
+  read: isLoggedIn()            // 'auth.uid != null',
+  write: isUser('$userId')      // 'auth.uid == $userId'
 ```
 
 #### Data

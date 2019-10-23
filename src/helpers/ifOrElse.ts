@@ -7,7 +7,7 @@
  * ```typescript
  * '/users/$userId/': {
  *   read: {
- *     ifCondition(
+ *     ifOrElse(
  *       userIsAuth,
  *       valueIsAuthUserId('$userId')
  *     )
@@ -16,7 +16,11 @@
  * ```
  *
  */
-export function ifCondition(condition, trueOperation, elseOperation) {
+export function ifOrElse(
+  condition: string,
+  trueOperation: string,
+  elseOperation: string | false
+) {
   if (!condition || !trueOperation) {
     throw new Error(
       "firebase-rules: ifCondition must receive at least a condition and a operation."

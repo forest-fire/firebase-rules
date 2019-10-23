@@ -36,19 +36,6 @@ exports.toNewData = liftedReplace_1.liftedReplace([
     [/root\./, "newDataRoot()."]
 ]);
 /**
- * Logical test that returns `true` if the user is authenticated
- * (aka, has a `uid` defined)
- */
-exports.isAuth = "auth.uid != null";
-/**
- * **isAuthId**
- *
- * Tests whether a particular user is logged in
- *
- * @param value the `uid` to test for
- */
-exports.isAuthId = (value) => `auth.uid == ${value}`;
-/**
  * **data**
  *
  * returns the _value_ (aka, `data.val()`) of the current database path

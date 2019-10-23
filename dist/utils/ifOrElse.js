@@ -31,4 +31,4 @@ function ifOrElse(condition, trueOperation, elseOperation) {
     }
 }
 exports.ifOrElse = ifOrElse;
-//# sourceMappingURL=ifCondition.js.map
+//# sourceMappingURL=ifOrElse.js.map
