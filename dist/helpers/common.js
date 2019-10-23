@@ -7,18 +7,19 @@ const conditions_1 = require("./conditions");
  * JSON String helpers
  */
 /**
- * String helper; string passed into the function are ensured to have string
- * quotation marks.
+ * a string helper; strings passed into the function are ensured to have string
+ * quotation marks whereas other variable types are left untouched.
  *
  * **Example:**
  * ```typescript
- * const foo = s('a day in the life'); // "\'a day in the life\'"
+ * const aString = s('a day in the life');        // \'a day in the life\'
+ * const aNumber = s(456);                        // 456
+ * const aStringVar = s('$myVariable/foobar');    // \'$myVariable/foobar\'
+ * const aBoolean = s(false);                     // false
  * ```
  */
-exports.s = (x) => `\'${x}\'`;
-/**
- * Transformers
- */
+exports.s = (value) => typeof value === "string" ? `\'${value}\'` : value;
+//#region TRANSFORMATIONS
 /**
  * Converts a reference of `newData` or `newDataRoot` to
  * `data` or `root`.
@@ -35,6 +36,8 @@ exports.toNewData = liftedReplace_1.liftedReplace([
     [/data\./g, "newData."],
     [/root\./, "newDataRoot()."]
 ]);
+//#endregion
+//#region DATA
 /**
  * **data**
  *
@@ -114,6 +117,7 @@ exports.child = (propName, newValue = false) => `data.child(\'${propName}\')`;
  * @param propName the property (or _property path_) off the current database path
  */
 exports.newChild = (propName) => exports.child(propName, true);
+//#endregion DATA
 /**
  * **hasChildren**
  *

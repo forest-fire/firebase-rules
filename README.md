@@ -8,9 +8,6 @@ provided as function rather than just static constants.
 
 ## Table of Contents
 
-[Getting Started](#getting-started)
-
-[Helpers](#helpers)
 - [Firebase Rules](#firebase-rules)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
@@ -23,10 +20,13 @@ provided as function rather than just static constants.
     - [Authorization](#authorization)
     - [Common](#common)
       - [Data](#data)
+      - [Props](#props)
+      - [Validation](#validation)
+      - [Indexing](#indexing)
+      - [User Defined String](#user-defined-string)
+      - [Transformers](#transformers)
   - [New Data Root](#new-data-root)
   - [Testing](#testing)
-
-[Testing](#testing)
 
 ## Getting Started
 
@@ -207,6 +207,8 @@ Functions include:
 isLoggedIn()
 isUser(uid: string)
 hasCustomClaim(claim: string)
+customClaimValue(claim: string, value: scalar, child?: string)
+customClaimContains(claim: string, value: scalar, child?: string)
 hasEmail()
 emailMatches(regEx: string)
 hasVerifiedEmail()
@@ -248,7 +250,7 @@ $path:
   // data.val() == null && newData.val() != null
 ```
 
-**props**
+#### Props
 
 ```
 prop(any) | child(any)
@@ -267,16 +269,18 @@ post:
   // newData.hasChildren(['title', 'body', 'createdBy']) && newData.child('createdBy').val() == auth.uid
 ```
 
-**validation**
+#### Validation
 
 ```javascript
 validate(conditions)
 
-isString
-isNumber
-isInteger
-isBoolean
-isNow
+isString(child?: string)
+isNumber(child?: string)
+isInteger(child?: string)
+isBoolean(child?: string)
+
+isBefore(timestamp: number)
+isAfter(timestamp: number)
 ```
 
 A lot of paths will only hold validation rules so there's a short-hand function that helps with that.
@@ -289,46 +293,48 @@ posts/$postId/createdAt: validate(isNow)
 posts/$postId/createdBy: validate(isAuthId(newData))
 ```
 
-**indexing**
+#### Indexing
 
-```
-indexOn([string])
+```typescript
+indexOn(...properties: string[])
 ```
 
 e.g. indexing some children for optimized querying
 
-```
-posts/$postId:
-  indexOn: ['createdAt', 'createdBy']
+```typescript
+{
+  "posts/$postId":
+    indexOn: ['createdAt', 'createdBy']
+}
 ```
 
-**user defined strings**
+#### User Defined String
 
-```javascript
+```typescript
 s('something') // '\'something\''
 ```
 
 Since we're dealing with an object that will be turned to a json, sometimes it's useful escaping user defined strings so they're not mistaken for variables by the firebase rules parser. This is normally used when passing a user defined string to a function like so:
 
-```javascript
-const userExists = userId => `root.child('users').child(${userId}).exists()`;
+```typescript
+const userExists = (userId: string) => `root.child('users').child(${userId}).exists()`;
 
 userName('$userId') // `root.child('users').child($userId).exists()`
 userName('123')     // `root.child('users').child(123).exists()` -> ERROR -> `123` is not a valid variable
 userName(s(123))    // `root.child('users').child('123').exists()`
 ```
 
-**transformers**
+#### Transformers
 
-```javascript
-toData(string | function)
-toNewData(string | function)
+```typescript
+toData(input: string | function)
+toNewData(input: string | function)
 ```
 
 There will be a time you will want to duplicate a rule so it checks both data and newData.
 This transformers will help you building code without having to duplicate it in these situations.
 
-```javascript
+```typescript
 const userExists = (userId) => `root.child('users').child(${userId}).exists()`;
 const userWillExist = toNewData(userExists);
 
@@ -340,38 +346,43 @@ See the `newDataRoot()` that appears on the output above? Read below to understa
 
 ## New Data Root
 
-Turns out you can't really use the `root` variable when you're dealing with the data that is being added to your database.
-This can be a bit of a pain when you're defining reusable rules that will be used on a lot of different paths.
+Turns out you can't really use the `root` variable when you're dealing with the data that is
+being added to your database. This can be a bit of a pain when you're defining reusable rules 
+that will be used on a lot of different paths.
 
 Let me show you what I mean.
 
-```javascript
-users/$userId/numberOfPosts:
-  validate: 'root.child('posts').child('$userId').numChildren() == newData.val()'
+```typescript
+{
+  "users/$userId/numberOfPosts":
+    validate: 'root.child('posts').child('$userId').numChildren() == newData.val()'
+}
 ```
 
 The above code would work perfectly if you are increasing the `user/numberOfPosts` prop *after* you've already created the post on the database. But if you're creating the post at the same time you're updating this counter it would not really work. `root` can't be used in the context of the data that is being added. To solve this you would have to do something like this:
 
-```javascript
-users/$userId/numberOfPosts:
-  validate: 'newData.parent().parent().child('posts').child('$userId').numChildren() == newData.val()'
+```typescript
+{
+  "users/$userId/numberOfPosts":
+    validate: 'newData.parent().parent().child('posts').child('$userId').numChildren() == newData.val()'
+}
 ```
 
 Messy, right? Not only that, you won't be able to reuse any rule throughout your application because things may be at different depths, so they will require a different number of `parent()` to be called.
 
 Fear not. We've got your back. While we're parsing your rules, we will check for a special keyword `newDataRoot()` and we will replace it with the correct code regarding the path you're using it. Let's see it in action.
 
-```javascript
+```typescript
 const numberOfPosts = userId => `newDataRoot().child('posts').child(${userId}).numChildren()`;
-
-users/$userId
-  validate: `${numberOfPosts('$userId')} == newData.child('numberOfPosts').val()'
-// 'newData.parent().child('posts').child('$userId').numChildren() == newData.val()'
-
-users/$userId/numberOfPosts:
-  validate: `${numberOfPosts('$userId')} == newData.val()'
-// 'newData.parent().parent().child('posts').child('$userId').numChildren() == newData.val()'
-
+const rules = {
+  "users/$userId":
+    validate: `${numberOfPosts('$userId')} == newData.child('numberOfPosts').val()'
+  // 'newData.parent().child('posts').child('$userId').numChildren() == newData.val()'
+  
+  "users/$userId/numberOfPosts":
+    validate: `${numberOfPosts('$userId')} == newData.val()'
+  // 'newData.parent().parent().child('posts').child('$userId').numChildren() == newData.val()'
+}
 ```
 
 This is *really* useful when you're creating data on multiple locations that depend on each other.
@@ -380,8 +391,8 @@ This is *really* useful when you're creating data on multiple locations that dep
 
 We recommend using the excelent [targaryen](https://github.com/goldibex/targaryen) library for testing your firebase rules without reaching for the server. Using it with **firebase-rules** is extremelly easy as you can generate your rules as an object instead of creating them on a file by just omitting the filename when calling the `createRules` function.
 
-```javascript
-const targaryen = require('targaryen');
+```typescript
+import targaryen from 'targaryen';
 const chai, { expect } = require('chai');
 chai.use(targaryen);
 
@@ -392,7 +403,6 @@ const { anyCondition } = require('firebase-rules/helpers/conditions');
  * You can retrieve your rules as an object
  * by just omitting the filename argument.
  */
- 
 const myFirebaseRules = createRules({
   '/my/path': {
     validate: anyCondition(
@@ -405,7 +415,6 @@ const myFirebaseRules = createRules({
 /**
  * an object representing your firebase data
  */
- 
 const myFirebaseData = {};
 
 /**
@@ -430,3 +439,4 @@ describe('my firebase rules tests', function() {
 ---
 
 Made with ♥ by [Georges Boris](https://georgesboris.com)
+Converted to Typescript by [Ken Snyder](https://ken.net)

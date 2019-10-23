@@ -7,20 +7,21 @@ import { everyCondition } from "./conditions";
  */
 
 /**
- * String helper; string passed into the function are ensured to have string
- * quotation marks.
+ * a string helper; strings passed into the function are ensured to have string
+ * quotation marks whereas other variable types are left untouched.
  *
  * **Example:**
  * ```typescript
- * const foo = s('a day in the life'); // "\'a day in the life\'"
+ * const aString = s('a day in the life');        // \'a day in the life\'
+ * const aNumber = s(456);                        // 456
+ * const aStringVar = s('$myVariable/foobar');    // \'$myVariable/foobar\'
+ * const aBoolean = s(false);                     // false
  * ```
  */
-export const s = (x: string) => `\'${x}\'`;
+export const s = (value: string | boolean | number) =>
+  typeof value === "string" ? `\'${value}\'` : value;
 
-/**
- * Transformers
- */
-
+//#region TRANSFORMATIONS
 /**
  * Converts a reference of `newData` or `newDataRoot` to
  * `data` or `root`.
@@ -38,6 +39,10 @@ export const toNewData = liftedReplace([
   [/data\./g, "newData."],
   [/root\./, "newDataRoot()."]
 ]);
+
+//#endregion
+
+//#region DATA
 
 /**
  * **data**
@@ -141,6 +146,8 @@ export const child = (propName: string, newValue: boolean = false) =>
  * @param propName the property (or _property path_) off the current database path
  */
 export const newChild = (propName: string) => child(propName, true);
+
+//#endregion DATA
 
 /**
  * **hasChildren**

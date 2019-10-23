@@ -2,18 +2,18 @@
  * JSON String helpers
  */
 /**
- * String helper; string passed into the function are ensured to have string
- * quotation marks.
+ * a string helper; strings passed into the function are ensured to have string
+ * quotation marks whereas other variable types are left untouched.
  *
  * **Example:**
  * ```typescript
- * const foo = s('a day in the life'); // "\'a day in the life\'"
+ * const aString = s('a day in the life');        // \'a day in the life\'
+ * const aNumber = s(456);                        // 456
+ * const aStringVar = s('$myVariable/foobar');    // \'$myVariable/foobar\'
+ * const aBoolean = s(false);                     // false
  * ```
  */
-export declare const s: (x: string) => string;
-/**
- * Transformers
- */
+export declare const s: (value: string | number | boolean) => string | number | boolean;
 /**
  * Converts a reference of `newData` or `newDataRoot` to
  * `data` or `root`.

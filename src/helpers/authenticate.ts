@@ -1,3 +1,5 @@
+import { s } from "./common";
+
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
@@ -20,7 +22,47 @@ export const isUser = (uid: string) => `auth.uid == ${uid}`;
  *
  * @param claim the claim name which is being validated
  */
-export const hasCustomClaim = (claim: string) => `auth.token.${claim} == true`;
+export const hasCustomClaim = (claim: string) => `auth.token.${claim} != null`;
+
+/**
+ * **customClaimValue**
+ *
+ * Checks a _custom claim_ to see an exact match of the value can be made. If the
+ * claim is an Object then you may also want to do the checking at a "child path"
+ * of the claim itself.
+ *
+ * @param claim the custom claim to check
+ * @param value the value which you want check for
+ * @param child _optionally_, the child path to the value in an object based claim value
+ */
+export const customClaimValue = (
+  claim: string,
+  value: string | boolean | number,
+  child?: string
+) =>
+  `auth.token.${claim}.${child ? child.replace(/\//, child) + "." : ""} == ${s(
+    value
+  )}`;
+
+/**
+ * **customClaimContains**
+ *
+ * Checks a _custom claim_ to see if a given value is contained within it. If the
+ * claim is an Object then you may also want to do the checking at a "child path"
+ * of the claim itself.
+ *
+ * @param claim the custom claim to check
+ * @param value the value which you want match for
+ * @param child _optionally_, the child path to the value in an object based claim value
+ */
+export const customClaimContains = (
+  claim: string,
+  value: string | boolean | number,
+  child?: string
+) =>
+  `auth.token.${claim}.${child ? child.replace(/\//, child) + "." : ""} == ${s(
+    value
+  )}`;
 
 /**
  * Tests if the logged in user has an email address

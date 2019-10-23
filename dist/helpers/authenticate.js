@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const common_1 = require("./common");
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
@@ -20,7 +21,31 @@ exports.isUser = (uid) => `auth.uid == ${uid}`;
  *
  * @param claim the claim name which is being validated
  */
-exports.hasCustomClaim = (claim) => `auth.token.${claim} == true`;
+exports.hasCustomClaim = (claim) => `auth.token.${claim} != null`;
+/**
+ * **customClaimValue**
+ *
+ * Checks a _custom claim_ to see an exact match of the value can be made. If the
+ * claim is an Object then you may also want to do the checking at a "child path"
+ * of the claim itself.
+ *
+ * @param claim the custom claim to check
+ * @param value the value which you want check for
+ * @param child _optionally_, the child path to the value in an object based claim value
+ */
+exports.customClaimValue = (claim, value, child) => `auth.token.${claim}.${child ? child.replace(/\//, child) + "." : ""} == ${common_1.s(value)}`;
+/**
+ * **customClaimContains**
+ *
+ * Checks a _custom claim_ to see if a given value is contained within it. If the
+ * claim is an Object then you may also want to do the checking at a "child path"
+ * of the claim itself.
+ *
+ * @param claim the custom claim to check
+ * @param value the value which you want match for
+ * @param child _optionally_, the child path to the value in an object based claim value
+ */
+exports.customClaimContains = (claim, value, child) => `auth.token.${claim}.${child ? child.replace(/\//, child) + "." : ""} == ${common_1.s(value)}`;
 /**
  * Tests if the logged in user has an email address
  */

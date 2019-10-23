@@ -20,6 +20,30 @@ export declare const isUser: (uid: string) => string;
  */
 export declare const hasCustomClaim: (claim: string) => string;
 /**
+ * **customClaimValue**
+ *
+ * Checks a _custom claim_ to see an exact match of the value can be made. If the
+ * claim is an Object then you may also want to do the checking at a "child path"
+ * of the claim itself.
+ *
+ * @param claim the custom claim to check
+ * @param value the value which you want check for
+ * @param child _optionally_, the child path to the value in an object based claim value
+ */
+export declare const customClaimValue: (claim: string, value: string | number | boolean, child?: string) => string;
+/**
+ * **customClaimContains**
+ *
+ * Checks a _custom claim_ to see if a given value is contained within it. If the
+ * claim is an Object then you may also want to do the checking at a "child path"
+ * of the claim itself.
+ *
+ * @param claim the custom claim to check
+ * @param value the value which you want match for
+ * @param child _optionally_, the child path to the value in an object based claim value
+ */
+export declare const customClaimContains: (claim: string, value: string | number | boolean, child?: string) => string;
+/**
  * Tests if the logged in user has an email address
  */
 export declare const hasEmail: () => string;
