@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("./common");
+exports.uid = () => "auth.uid";
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
  */
-exports.isLoggedIn = "auth.uid != null";
+exports.isLoggedIn = () => "auth.uid != null";
 /**
  * **isAuthId**
  *
@@ -13,7 +14,7 @@ exports.isLoggedIn = "auth.uid != null";
  *
  * @param uid the `uid` to test for
  */
-exports.isUser = (uid) => `auth.uid == ${uid}`;
+exports.isUser = (uid) => `auth.uid == ${common_1.s(uid)}`;
 /**
  * **hasCustomClaim**
  *

@@ -219,9 +219,12 @@ So if you wanted to ensure all logged in users can _read_ but you
 can only _write_ to posts which you own:
 
 ```typescript
-'posts/$userId/$postId':
-  read: isLoggedIn()            // 'auth.uid != null',
-  write: isUser('$userId')      // 'auth.uid == $userId'
+{
+  'posts/$userId/$postId': {
+    read: isLoggedIn(),           // 'auth.uid != null',
+    write: isUser('$userId')      // 'auth.uid == $userId'
+  }
+}
 ```
 
 ### Common
@@ -252,10 +255,10 @@ $path:
 
 #### Props
 
-```
-prop(any) | child(any)
-newProp(any) | newChild(any)
-hasProp([]) | hasChildren([])
+```typescript
+child(path: string)
+newChild(path: string)
+hasChildren(...children: string[])
 ```
 
 e.g. a post can only be created with all required fields filled. the createdBy must hold the userId.
@@ -263,7 +266,7 @@ e.g. a post can only be created with all required fields filled. the createdBy m
 ```javascript
 post:
   write: everyCondition(
-    hasChildren(['title', 'body', 'createdBy']),
+    hasChildren('title', 'body', 'createdBy'),
     isAuthId(newProp('createdBy'))
   )
   // newData.hasChildren(['title', 'body', 'createdBy']) && newData.child('createdBy').val() == auth.uid
@@ -285,12 +288,14 @@ isAfter(timestamp: number)
 
 A lot of paths will only hold validation rules so there's a short-hand function that helps with that.
 
-```javascript
-posts/$postId/title:     validate(isString)
-posts/$postId/likes:     validate(isNumber)
-posts/$postId/archived:  validate(isBoolean)
-posts/$postId/createdAt: validate(isNow)
-posts/$postId/createdBy: validate(isAuthId(newData))
+```typescript
+const rules = {
+  "posts/$postId/title":     validate(isString())
+  "posts/$postId/likes":     validate(isNumber())
+  "posts/$postId/archived":  validate(isBoolean())
+  "posts/$postId/createdAt": validate(isBefore(23434364))
+  "posts/$postId/createdBy": validate(isUser(data()))
+}
 ```
 
 #### Indexing

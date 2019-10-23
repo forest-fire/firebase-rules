@@ -1,8 +1,9 @@
+export declare const uid: () => string;
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
  */
-export declare const isLoggedIn = "auth.uid != null";
+export declare const isLoggedIn: () => string;
 /**
  * **isAuthId**
  *

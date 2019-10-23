@@ -1,10 +1,12 @@
 import { s } from "./common";
 
+export const uid = () => "auth.uid";
+
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
  */
-export const isLoggedIn = "auth.uid != null";
+export const isLoggedIn = () => "auth.uid != null";
 
 /**
  * **isAuthId**
@@ -13,7 +15,7 @@ export const isLoggedIn = "auth.uid != null";
  *
  * @param uid the `uid` to test for
  */
-export const isUser = (uid: string) => `auth.uid == ${uid}`;
+export const isUser = (uid: string) => `auth.uid == ${s(uid)}`;
 
 /**
  * **hasCustomClaim**
