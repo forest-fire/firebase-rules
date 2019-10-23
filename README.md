@@ -11,10 +11,20 @@ provided as function rather than just static constants.
 [Getting Started](#getting-started)
 
 [Helpers](#helpers)
-- [Conditions](#conditions)
-- [CRUD](#crud)
-- [Common](#common)
-- [New Data Root](#new-data-root)
+- [Firebase Rules](#firebase-rules)
+  - [Table of Contents](#table-of-contents)
+  - [Getting Started](#getting-started)
+  - [Helpers](#helpers)
+    - [Conditions](#conditions)
+      - [ifOrElse](#iforelse)
+      - [anyCondition](#anycondition)
+      - [everyCondition](#everycondition)
+    - [CRUD](#crud)
+    - [Authorization](#authorization)
+    - [Common](#common)
+      - [Data](#data)
+  - [New Data Root](#new-data-root)
+  - [Testing](#testing)
 
 [Testing](#testing)
 
@@ -189,11 +199,7 @@ onDelete( checkIfUserCanDeleteThis )
 
 > Note that `onDelete` is not called on `validate` rules since firebase bypasses validations on null values.
 
-### Common
-
-We also provide a lot of common snippets so you won't have to redo the basics.
-
-#### Authorization
+### Authorization
 
 Functions include:
 
@@ -215,6 +221,10 @@ can only _write_ to posts which you own:
   read: isLoggedIn()            // 'auth.uid != null',
   write: isUser('$userId')      // 'auth.uid == $userId'
 ```
+
+### Common
+
+We also provide a lot of common snippets so you won't have to redo the basics.
 
 #### Data
 
