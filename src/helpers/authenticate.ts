@@ -1,5 +1,8 @@
 import { s } from "./common";
 
+/**
+ * An _alias_ for `auth.uid`
+ */
 export const uid = () => "auth.uid";
 
 /**

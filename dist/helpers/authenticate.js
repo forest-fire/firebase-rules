@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("./common");
+/**
+ * An _alias_ for `auth.uid`
+ */
 exports.uid = () => "auth.uid";
 /**
  * Logical test that returns `true` if the user is authenticated

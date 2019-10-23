@@ -1,3 +1,6 @@
+/**
+ * An _alias_ for `auth.uid`
+ */
 export declare const uid: () => string;
 /**
  * Logical test that returns `true` if the user is authenticated
