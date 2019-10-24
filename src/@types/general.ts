@@ -3,4 +3,5 @@ export interface ISecurityRule {
   write?: string | boolean;
   validate?: string;
   query?: string;
+  indexOn?: string | string[];
 }
