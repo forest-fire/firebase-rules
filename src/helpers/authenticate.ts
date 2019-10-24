@@ -45,7 +45,7 @@ export const customClaimValue = (
   value: string | boolean | number,
   child?: string
 ) =>
-  `auth.token.${claim}${child ? "." + child.replace(/\//, child) : ""} == ${s(
+  `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(\.|$)/g, "[$1]$2") : ""} === ${s(
     value
   )}`;
 
@@ -65,7 +65,7 @@ export const customClaimContains = (
   value: string | boolean | number,
   child?: string
 ) =>
-  `auth.token.${claim}${child ? "." + child.replace(/\//, child) : ""} == ${s(
+  `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(\.|$)/g, "[$1]$2") : ""} === ${s(
     value
   )}`;
 
