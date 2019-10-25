@@ -65,9 +65,9 @@ export const customClaimContains = (
   value: string | boolean | number,
   child?: string
 ) =>
-  `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(\.|$)/g, "[$1]$2") : ""} === ${s(
-    value
-  )}`;
+  `auth.token.${claim}${
+    child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(\.|$)/g, "[$1]$2") : ""
+  }.contains(${s(value)})`
 
 /**
  * Tests if the logged in user has an email address
