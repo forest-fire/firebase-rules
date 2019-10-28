@@ -51,7 +51,7 @@ export const toNewData = liftedReplace([
  */
 export const data = (path?: string): string => {
   const segments: string[] = path.split('/')
-  return `data.${segments.map(s => `child(${s})`).join('.')}.val()`
+  return `data.${segments.map(s => `child('${s}')`).join('.')}.val()`
 }
 
 /**
