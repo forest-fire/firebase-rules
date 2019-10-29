@@ -49,10 +49,8 @@ export const toNewData = liftedReplace([
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
  */
-export const data = (path?: string): string => {
-  const segments: string[] = path.split('/')
-  return `data.${segments.map(s => `child('${s}')`).join('.')}.val()`
-}
+export const data = (child?: string) =>
+  `data.${child ? `child('${child}').` : ""}val()`;
 
 /**
  * returns the _value_ of the **new** data at the current database path
