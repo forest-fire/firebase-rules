@@ -45,6 +45,12 @@ export const toNewData = liftedReplace([
 //#region DATA
 
 /**
+ * returns the _value_ at the specified path from the root of the database
+ */
+export const root = (child?: string) =>
+  `root.${child ? `child('${child}').` : ""}val()`;
+
+/**
  * **data**
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
