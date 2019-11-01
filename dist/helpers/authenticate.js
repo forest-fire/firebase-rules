@@ -37,7 +37,9 @@ exports.hasCustomClaim = (claim) => `auth.token.${claim} != null`;
  * @param value the value which you want check for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-exports.customClaimValue = (claim, value, child) => `auth.token.${claim}${child ? "." + child.replace(/\//, child) : ""} == ${common_1.s(value)}`;
+exports.customClaimValue = (claim, value, child) => child && typeof child === "function"
+    ? `auth.token.${claim}[${child()}] === ${common_1.s(value)}`
+    : `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""} === ${common_1.s(value)}`;
 /**
  * **customClaimContains**
  *
@@ -49,7 +51,9 @@ exports.customClaimValue = (claim, value, child) => `auth.token.${claim}${child 
  * @param value the value which you want match for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-exports.customClaimContains = (claim, value, child) => `auth.token.${claim}${child ? "." + child.replace(/\//, child) : ""} == ${common_1.s(value)}`;
+exports.customClaimContains = (claim, value, child) => child && typeof child === "function"
+    ? `auth.token.${claim}[${child()}] === ${common_1.s(value)}`
+    : `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""}.contains(${common_1.s(value)})`;
 /**
  * Tests if the logged in user has an email address
  */

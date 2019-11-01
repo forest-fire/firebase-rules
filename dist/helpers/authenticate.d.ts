@@ -34,7 +34,7 @@ export declare const hasCustomClaim: (claim: string) => string;
  * @param value the value which you want check for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-export declare const customClaimValue: (claim: string, value: string | number | boolean, child?: string) => string;
+export declare const customClaimValue: (claim: string, value: string | number | boolean, child?: string | (() => string)) => string;
 /**
  * **customClaimContains**
  *
@@ -46,7 +46,7 @@ export declare const customClaimValue: (claim: string, value: string | number | 
  * @param value the value which you want match for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-export declare const customClaimContains: (claim: string, value: string | number | boolean, child?: string) => string;
+export declare const customClaimContains: (claim: string, value: string | number | boolean, child?: string | (() => string)) => string;
 /**
  * Tests if the logged in user has an email address
  */

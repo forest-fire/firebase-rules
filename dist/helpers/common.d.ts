@@ -25,6 +25,10 @@ export declare const toData: (value: any) => any;
  */
 export declare const toNewData: (value: any) => any;
 /**
+ * returns the _value_ at the specified path from the root of the database
+ */
+export declare const root: (child?: string) => string;
+/**
  * **data**
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
