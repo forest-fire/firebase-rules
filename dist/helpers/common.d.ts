@@ -117,24 +117,32 @@ export declare const newChild: (propName: string) => string;
 export declare const hasChildren: (...children: string[]) => string;
 /**
  * Tests whether `newData` is a **string**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export declare const isString: (child?: string) => string;
 /**
  * Tests whether `newData` is a **number**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export declare const isNumber: (child?: string) => string;
 /**
  * Tests whether `newData` is an **integer**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export declare const isInteger: (child?: string) => string;
 /**
  * Tests whether `newData` is **boolean**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export declare const isBoolean: (child?: string) => string;
+/**
+ * Tests whether `newData` matches some regular expression; optionally allowing
+ * for the test to be done on a child property
+ */
+export declare function matches(matchRule: {
+    child: string;
+    regexp: RegExp;
+} | RegExp): string;
 export declare const isNow = "newData.val() == now";
 /**
  * **validate**
