@@ -169,7 +169,7 @@ export const newChild = (propName: string) => child(propName, true);
  *
  * @param children the child nodes which you are checking
  */
-const hasChildren = (...children: string[]) =>
+export const hasChildren = (...children: string[]) =>
   `newData.hasChildren(${jsonArr(children)})`;
 
 /**

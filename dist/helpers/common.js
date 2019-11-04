@@ -136,7 +136,7 @@ exports.newChild = (propName) => exports.child(propName, true);
  *
  * @param children the child nodes which you are checking
  */
-const hasChildren = (...children) => `newData.hasChildren(${jsonArr_1.jsonArr(children)})`;
+exports.hasChildren = (...children) => `newData.hasChildren(${jsonArr_1.jsonArr(children)})`;
 /**
  * Tests whether `newData` is a **string**; optionally allowing
  * for the test do be done on a child property

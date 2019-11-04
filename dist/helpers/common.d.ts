@@ -107,6 +107,15 @@ export declare const child: (propName: string, newValue?: boolean) => string;
  */
 export declare const newChild: (propName: string) => string;
 /**
+ * **hasChildren**
+ *
+ * Checks the _new_ data for whether it has a given set of
+ * properties.
+ *
+ * @param children the child nodes which you are checking
+ */
+export declare const hasChildren: (...children: string[]) => string;
+/**
  * Tests whether `newData` is a **string**; optionally allowing
  * for the test do be done on a child property
  */
