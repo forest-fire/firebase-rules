@@ -174,31 +174,41 @@ export const hasChildren = (...children: string[]) =>
 
 /**
  * Tests whether `newData` is a **string**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isString = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}isString()`;
 
 /**
  * Tests whether `newData` is a **number**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isNumber = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}isNumber()`;
 
 /**
  * Tests whether `newData` is an **integer**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isInteger = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}val().matches(/^-?d+$/)`;
 
 /**
  * Tests whether `newData` is **boolean**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isBoolean = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}isBoolean()`;
+
+/**
+ * Tests whether `newData` matches some regular expression; optionally allowing
+ * for the test to be done on a child property
+ */
+export function matches(matchRule: { child: string; regexp: RegExp } | RegExp) {
+  return matchRule instanceof RegExp
+    ? `newData.val().matches(${matchRule.toString()})`
+    : `newData.child('${matchRule.child}').val().matches(${matchRule.regexp.toString()})`
+}
 
 export const isNow = "newData.val() == now";
 
