@@ -45,6 +45,12 @@ export const toNewData = liftedReplace([
 //#region DATA
 
 /**
+ * returns the _value_ at the specified path from the root of the database
+ */
+export const root = (child?: string) =>
+  `root.${child ? `child('${child}').` : ""}val()`;
+
+/**
  * **data**
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
@@ -115,6 +121,12 @@ export const dataExists = (child?: string) => _exists(child, false, false);
  */
 export const dataDoesNotExist = (child?: string) => _exists(child, false, true);
 
+/**
+ * **newDataExists**
+ *
+ * Tests whether there is data at the given path of **newData**; you may also optionally
+ * provide a child path to test areas deeper than the current path.
+ */
 export const newDataExists = (child?: string) => _exists(child, true, false);
 
 /**
@@ -157,36 +169,46 @@ export const newChild = (propName: string) => child(propName, true);
  *
  * @param children the child nodes which you are checking
  */
-const hasChildren = (...children: string[]) =>
+export const hasChildren = (...children: string[]) =>
   `newData.hasChildren(${jsonArr(children)})`;
 
 /**
  * Tests whether `newData` is a **string**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isString = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}isString()`;
 
 /**
  * Tests whether `newData` is a **number**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isNumber = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}isNumber()`;
 
 /**
  * Tests whether `newData` is an **integer**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isInteger = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}val().matches(/^-?d+$/)`;
 
 /**
  * Tests whether `newData` is **boolean**; optionally allowing
- * for the test do be done on a child property
+ * for the test to be done on a child property
  */
 export const isBoolean = (child?: string) =>
   `newData.${child ? `child('${child}').` : ""}isBoolean()`;
+
+/**
+ * Tests whether `newData` matches some regular expression; optionally allowing
+ * for the test to be done on a child property
+ */
+export function matches(matchRule: { child: string; regexp: RegExp } | RegExp) {
+  return matchRule instanceof RegExp
+    ? `newData.val().matches(${matchRule.toString()})`
+    : `newData.child('${matchRule.child}').val().matches(${matchRule.regexp.toString()})`
+}
 
 export const isNow = "newData.val() == now";
 

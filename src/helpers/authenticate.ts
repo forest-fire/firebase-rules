@@ -43,11 +43,13 @@ export const hasCustomClaim = (claim: string) => `auth.token.${claim} != null`;
 export const customClaimValue = (
   claim: string,
   value: string | boolean | number,
-  child?: string
-) =>
-  `auth.token.${claim}${child ? "." + child.replace(/\//, child) : ""} == ${s(
-    value
-  )}`;
+  child?: string | (() => string)
+) => child && typeof child === "function"
+  ? `auth.token.${claim}[${child()}] === ${s(value)}`
+  : `auth.token.${claim}${child ? ("." + (child as string).replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""} === ${s(
+      value,
+    )}`
+
 
 /**
  * **customClaimContains**
@@ -63,11 +65,13 @@ export const customClaimValue = (
 export const customClaimContains = (
   claim: string,
   value: string | boolean | number,
-  child?: string
-) =>
-  `auth.token.${claim}${child ? "." + child.replace(/\//, child) : ""} == ${s(
-    value
-  )}`;
+  child?: string | (() => string)
+) => child && typeof child === "function"
+  ? `auth.token.${claim}[${child()}] === ${s(value)}`
+  : `auth.token.${claim}${
+      child ? ("." + (child as string).replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""
+    }.contains(${s(value)})`
+
 
 /**
  * Tests if the logged in user has an email address
