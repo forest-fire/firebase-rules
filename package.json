@@ -1,14 +1,20 @@
 {
-  "name": "firebase-rules",
-  "version": "1.0.4",
+  "name": "@forest-fire/firebase-rules",
+  "version": "1.1.0",
   "description": "Create readable and scalable firebase rules using javascript/typescript.",
   "homepage": "https://github.com/tasking/firebase-rules",
   "author": "Georges Boris",
   "license": "BSD-2-Clause",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "typings": "dist/es/index.d.js",
   "scripts": {
-    "build": "tsc -P tsconfig.cjs.json",
+    "clean": "rimraf dist",
+    "clean:nuclear": "rimraf dist node_modules",
+    "build": "run-s clean build:tsc",
+    "build:tsc": "run-p build:cjs build:es",
+    "build:cjs": "tsc -P tsconfig.cjs.json",
+    "build:es": "tsc -P tsconfig.es.json",
     "watch": "tsc -P tsconfig.cjs.json --watch",
     "test": "jest",
     "start": "jest --watch"
@@ -21,14 +27,16 @@
     "url": "https://github.com/tasking/firebase-rules/issues"
   },
   "dependencies": {
-    "common-types": "^1.12.12",
-    "lodash": "^4.17.4"
+    "common-types": "^1.15.8",
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
-    "@types/lodash": "^4.14.144",
+    "@types/lodash": "^4.14.158",
     "@types/node": "^10.14.0",
     "jest": "^21.1.0",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "targaryen": "^3.0.2"
   }
 }
