@@ -1,13 +1,13 @@
 {
   "name": "@forest-fire/firebase-rules",
-  "version": "1.1.0",
-  "description": "Create readable and scalable firebase rules using javascript/typescript.",
+  "version": "1.1.1",
+  "description": "A growing fork of the fantastic rules from Geoges Boris",
   "homepage": "https://github.com/tasking/firebase-rules",
   "author": "Georges Boris",
-  "license": "BSD-2-Clause",
+  "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
-  "typings": "dist/es/index.d.js",
+  "typings": "dist/es/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
     "clean:nuclear": "rimraf dist node_modules",
@@ -33,8 +33,8 @@
   "devDependencies": {
     "@types/jest": "^24.0.19",
     "@types/lodash": "^4.14.158",
-    "@types/node": "^10.14.0",
-    "jest": "^21.1.0",
+    "@types/node": "^12.12.0",
+    "jest": "^26.1.0",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "targaryen": "^3.0.2"
