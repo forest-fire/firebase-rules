@@ -1,11 +1,7 @@
-import {
-  dataDoesNotExist,
-  dataExists,
-  newDataExists,
-  newDataDoesNotExist
-} from "./common";
-import { everyCondition, anyCondition } from "./conditions";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const common_1 = require("./common");
+const conditions_1 = require("./conditions");
 /**
  * **onCreate**
  *
@@ -15,10 +11,10 @@ import { everyCondition, anyCondition } from "./conditions";
  * @param conditions additional conditions (to it being a _create_ event); they
  * will be all be wrapped with a `everyCondition` clause
  */
-export function onCreate(...conditions: string[]) {
-  return everyCondition(dataDoesNotExist(), ...conditions);
+function onCreate(...conditions) {
+    return conditions_1.everyCondition(common_1.dataDoesNotExist(), ...conditions);
 }
-
+exports.onCreate = onCreate;
 /**
  * **onUpdate**
  *
@@ -28,10 +24,10 @@ export function onCreate(...conditions: string[]) {
  *
  * @param conditions additional conditions you also want to test for
  */
-export function onUpdate(...conditions: string[]) {
-  return everyCondition(dataExists(), newDataExists(), ...conditions);
+function onUpdate(...conditions) {
+    return conditions_1.everyCondition(common_1.dataExists(), common_1.newDataExists(), ...conditions);
 }
-
+exports.onUpdate = onUpdate;
 /**
  * **onDelete**
  *
@@ -42,10 +38,10 @@ export function onUpdate(...conditions: string[]) {
  * @param conditions additional conditions (to it being a _delete_ event); they
  * will be all be wrapped with a `everyCondition` clause
  */
-export function onDelete(...conditions: string[]) {
-  return everyCondition(dataExists(), newDataDoesNotExist(), ...conditions);
+function onDelete(...conditions) {
+    return conditions_1.everyCondition(common_1.dataExists(), common_1.newDataDoesNotExist(), ...conditions);
 }
-
+exports.onDelete = onDelete;
 /**
  * **onCreateOrUpdate**
  *
@@ -55,6 +51,8 @@ export function onDelete(...conditions: string[]) {
  * @param conditions additional conditions (to it being a _create_ or _update_ event); they
  * will be wrapped with an `everyCondition` clause
  */
-export function onCreateOrUpdate(...conditions: string[]): string {
-  return anyCondition(onCreate(...conditions), onUpdate(...conditions))
+function onCreateOrUpdate(...conditions) {
+    return conditions_1.anyCondition(onCreate(...conditions), onUpdate(...conditions));
 }
+exports.onCreateOrUpdate = onCreateOrUpdate;
+//# sourceMappingURL=crud.js.map

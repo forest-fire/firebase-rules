@@ -1,6 +1,7 @@
 export interface ISecurityRule {
-  read?: string;
-  write?: string;
-  validate?: string;
+  read?: string | boolean;
+  write?: string | boolean;
+  validate?: string | boolean;
   query?: string;
+  indexOn?: string | string[];
 }

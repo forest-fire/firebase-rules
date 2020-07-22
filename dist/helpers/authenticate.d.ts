@@ -1,16 +1,12 @@
-import { s } from "./common";
-
 /**
  * An _alias_ for `auth.uid`
  */
-export const uid = () => "auth.uid";
-
+export declare const uid: () => string;
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
  */
-export const isLoggedIn = () => "auth.uid != null";
-
+export declare const isLoggedIn: () => string;
 /**
  * **isAuthId**
  *
@@ -18,8 +14,7 @@ export const isLoggedIn = () => "auth.uid != null";
  *
  * @param uid the `uid` to test for
  */
-export const isUser = (uid: string) => `auth.uid == ${s(uid)}`;
-
+export declare const isUser: (uid: string) => string;
 /**
  * **hasCustomClaim**
  *
@@ -27,8 +22,7 @@ export const isUser = (uid: string) => `auth.uid == ${s(uid)}`;
  *
  * @param claim the claim name which is being validated
  */
-export const hasCustomClaim = (claim: string) => `auth.token.${claim} != null`;
-
+export declare const hasCustomClaim: (claim: string) => string;
 /**
  * **customClaimValue**
  *
@@ -40,17 +34,7 @@ export const hasCustomClaim = (claim: string) => `auth.token.${claim} != null`;
  * @param value the value which you want check for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-export const customClaimValue = (
-  claim: string,
-  value: string | boolean | number,
-  child?: string | (() => string)
-) => child && typeof child === "function"
-  ? `auth.token.${claim}[${child()}] === ${s(value)}`
-  : `auth.token.${claim}${child ? ("." + (child as string).replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""} === ${s(
-      value,
-    )}`
-
-
+export declare const customClaimValue: (claim: string, value: string | number | boolean, child?: string | (() => string)) => string;
 /**
  * **customClaimContains**
  *
@@ -62,22 +46,11 @@ export const customClaimValue = (
  * @param value the value which you want match for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-export const customClaimContains = (
-  claim: string,
-  value: string | boolean | number,
-  child?: string | (() => string)
-) => child && typeof child === "function"
-  ? `auth.token.${claim}[${child()}] === ${s(value)}`
-  : `auth.token.${claim}${
-      child ? ("." + (child as string).replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""
-    }.contains(${s(value)})`
-
-
+export declare const customClaimContains: (claim: string, value: string | number | boolean, child?: string | (() => string)) => string;
 /**
  * Tests if the logged in user has an email address
  */
-export const hasEmail = () => `auth.token.email != null`;
-
+export declare const hasEmail: () => string;
 /**
  * **emailMatches**
  *
@@ -86,15 +59,12 @@ export const hasEmail = () => `auth.token.email != null`;
  *
  * @param regEx a regular expression stated as a `string`
  */
-export const emailMatches = (regEx: string) =>
-  `auth.token.email.matches(${regEx})`;
-
+export declare const emailMatches: (regEx: string) => string;
 /**
  * Tests if the logged in user has an email address
  */
-export const hasVerifiedEmail = () => `auth.token.email_verified == true`;
-
+export declare const hasVerifiedEmail: () => string;
 /**
  * Tests if the logged in user has a phone number
  */
-export const hasPhoneNumber = () => `auth.token.phone_number != null`;
+export declare const hasPhoneNumber: () => string;

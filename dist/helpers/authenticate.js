@@ -1,16 +1,15 @@
-import { s } from "./common";
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const common_1 = require("./common");
 /**
  * An _alias_ for `auth.uid`
  */
-export const uid = () => "auth.uid";
-
+exports.uid = () => "auth.uid";
 /**
  * Logical test that returns `true` if the user is authenticated
  * (aka, has a `uid` defined)
  */
-export const isLoggedIn = () => "auth.uid != null";
-
+exports.isLoggedIn = () => "auth.uid != null";
 /**
  * **isAuthId**
  *
@@ -18,8 +17,7 @@ export const isLoggedIn = () => "auth.uid != null";
  *
  * @param uid the `uid` to test for
  */
-export const isUser = (uid: string) => `auth.uid == ${s(uid)}`;
-
+exports.isUser = (uid) => `auth.uid == ${common_1.s(uid)}`;
 /**
  * **hasCustomClaim**
  *
@@ -27,8 +25,7 @@ export const isUser = (uid: string) => `auth.uid == ${s(uid)}`;
  *
  * @param claim the claim name which is being validated
  */
-export const hasCustomClaim = (claim: string) => `auth.token.${claim} != null`;
-
+exports.hasCustomClaim = (claim) => `auth.token.${claim} != null`;
 /**
  * **customClaimValue**
  *
@@ -40,17 +37,9 @@ export const hasCustomClaim = (claim: string) => `auth.token.${claim} != null`;
  * @param value the value which you want check for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-export const customClaimValue = (
-  claim: string,
-  value: string | boolean | number,
-  child?: string | (() => string)
-) => child && typeof child === "function"
-  ? `auth.token.${claim}[${child()}] === ${s(value)}`
-  : `auth.token.${claim}${child ? ("." + (child as string).replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""} === ${s(
-      value,
-    )}`
-
-
+exports.customClaimValue = (claim, value, child) => child && typeof child === "function"
+    ? `auth.token.${claim}[${child()}] === ${common_1.s(value)}`
+    : `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""} === ${common_1.s(value)}`;
 /**
  * **customClaimContains**
  *
@@ -62,22 +51,13 @@ export const customClaimValue = (
  * @param value the value which you want match for
  * @param child _optionally_, the child path to the value in an object based claim value
  */
-export const customClaimContains = (
-  claim: string,
-  value: string | boolean | number,
-  child?: string | (() => string)
-) => child && typeof child === "function"
-  ? `auth.token.${claim}[${child()}] === ${s(value)}`
-  : `auth.token.${claim}${
-      child ? ("." + (child as string).replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""
-    }.contains(${s(value)})`
-
-
+exports.customClaimContains = (claim, value, child) => child && typeof child === "function"
+    ? `auth.token.${claim}[${child()}] === ${common_1.s(value)}`
+    : `auth.token.${claim}${child ? ("." + child.replace(/\//g, ".")).replace(/\.(\$.+?)(?=\.|$)/g, "[$1]") : ""}.contains(${common_1.s(value)})`;
 /**
  * Tests if the logged in user has an email address
  */
-export const hasEmail = () => `auth.token.email != null`;
-
+exports.hasEmail = () => `auth.token.email != null`;
 /**
  * **emailMatches**
  *
@@ -86,15 +66,13 @@ export const hasEmail = () => `auth.token.email != null`;
  *
  * @param regEx a regular expression stated as a `string`
  */
-export const emailMatches = (regEx: string) =>
-  `auth.token.email.matches(${regEx})`;
-
+exports.emailMatches = (regEx) => `auth.token.email.matches(${regEx})`;
 /**
  * Tests if the logged in user has an email address
  */
-export const hasVerifiedEmail = () => `auth.token.email_verified == true`;
-
+exports.hasVerifiedEmail = () => `auth.token.email_verified == true`;
 /**
  * Tests if the logged in user has a phone number
  */
-export const hasPhoneNumber = () => `auth.token.phone_number != null`;
+exports.hasPhoneNumber = () => `auth.token.phone_number != null`;
+//# sourceMappingURL=authenticate.js.map

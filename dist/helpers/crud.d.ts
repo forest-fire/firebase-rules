@@ -1,11 +1,3 @@
-import {
-  dataDoesNotExist,
-  dataExists,
-  newDataExists,
-  newDataDoesNotExist
-} from "./common";
-import { everyCondition, anyCondition } from "./conditions";
-
 /**
  * **onCreate**
  *
@@ -15,10 +7,7 @@ import { everyCondition, anyCondition } from "./conditions";
  * @param conditions additional conditions (to it being a _create_ event); they
  * will be all be wrapped with a `everyCondition` clause
  */
-export function onCreate(...conditions: string[]) {
-  return everyCondition(dataDoesNotExist(), ...conditions);
-}
-
+export declare function onCreate(...conditions: string[]): string;
 /**
  * **onUpdate**
  *
@@ -28,10 +17,7 @@ export function onCreate(...conditions: string[]) {
  *
  * @param conditions additional conditions you also want to test for
  */
-export function onUpdate(...conditions: string[]) {
-  return everyCondition(dataExists(), newDataExists(), ...conditions);
-}
-
+export declare function onUpdate(...conditions: string[]): string;
 /**
  * **onDelete**
  *
@@ -42,10 +28,7 @@ export function onUpdate(...conditions: string[]) {
  * @param conditions additional conditions (to it being a _delete_ event); they
  * will be all be wrapped with a `everyCondition` clause
  */
-export function onDelete(...conditions: string[]) {
-  return everyCondition(dataExists(), newDataDoesNotExist(), ...conditions);
-}
-
+export declare function onDelete(...conditions: string[]): string;
 /**
  * **onCreateOrUpdate**
  *
@@ -55,6 +38,4 @@ export function onDelete(...conditions: string[]) {
  * @param conditions additional conditions (to it being a _create_ or _update_ event); they
  * will be wrapped with an `everyCondition` clause
  */
-export function onCreateOrUpdate(...conditions: string[]): string {
-  return anyCondition(onCreate(...conditions), onUpdate(...conditions))
-}
+export declare function onCreateOrUpdate(...conditions: string[]): string;

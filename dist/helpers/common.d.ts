@@ -1,11 +1,6 @@
-import { liftedReplace } from "../utils/liftedReplace";
-import { jsonArr } from "../utils/jsonArr";
-import { everyCondition } from "./conditions";
-
 /**
  * JSON String helpers
  */
-
 /**
  * a string helper; strings passed into the function are ensured to have string
  * quotation marks whereas other variable types are left untouched.
@@ -18,51 +13,31 @@ import { everyCondition } from "./conditions";
  * const aBoolean = s(false);                     // false
  * ```
  */
-export const s = (value: string | boolean | number) =>
-  typeof value === "string" ? `\'${value}\'` : value;
-
-//#region TRANSFORMATIONS
+export declare const s: (value: string | number | boolean) => string | number | boolean;
 /**
  * Converts a reference of `newData` or `newDataRoot` to
  * `data` or `root`.
  */
-export const toData = liftedReplace([
-  [/newData\./g, "data."],
-  [/newDataRoot\(\)\./, "root."]
-]);
-
+export declare const toData: (value: any) => any;
 /**
  * Converts a reference of `data` or `root` to
  * `newData` or `newDataRoot`.
  */
-export const toNewData = liftedReplace([
-  [/data\./g, "newData."],
-  [/root\./, "newDataRoot()."]
-]);
-
-//#endregion
-
-//#region DATA
-
+export declare const toNewData: (value: any) => any;
 /**
  * returns the _value_ at the specified path from the root of the database
  */
-export const root = (child?: string) =>
-  `root.${child ? `child('${child}').` : ""}val()`;
-
+export declare const root: (child?: string) => string;
 /**
  * **data**
  *
  * returns the _value_ (aka, `data.val()`) of the current database path
  */
-export const data = (child?: string) =>
-  `data.${child ? `child('${child}').` : ""}val()`;
-
+export declare const data: (child?: string) => string;
 /**
  * returns the _value_ of the **new** data at the current database path
  */
-export const newData = toNewData(data);
-
+export declare const newData: any;
 /**
  * **isValue**
  *
@@ -73,11 +48,7 @@ export const newData = toNewData(data);
  * @param value the value to test for
  * @param childPath the optional child path
  */
-export const isValue = (value: string | number | boolean, childPath?: string) =>
-  childPath
-    ? `data.val() == ${typeof value === "string" ? s(value) : value}`
-    : `data.val() == ${typeof value === "string" ? s(value) : value}`;
-
+export declare const isValue: (value: string | number | boolean, childPath?: string) => string;
 /**
  * **isNewValue**
  *
@@ -88,56 +59,35 @@ export const isValue = (value: string | number | boolean, childPath?: string) =>
  * @param value the value to test for
  * @param childPath the optional child path
  */
-export const isNewValue = (
-  value: string | number | boolean,
-  childPath?: string
-) => toNewData(isValue(value, childPath));
-
-function _exists(
-  child: string = undefined,
-  isNewData: boolean,
-  inverse: boolean
-) {
-  return child
-    ? `${isNewData ? "newData" : "data"}.child('${child}').val() ${
-        inverse ? "==" : "!="
-      } null`
-    : `${isNewData ? "newData" : "data"}.val() ${inverse ? "==" : "!="} null`;
-}
-
+export declare const isNewValue: (value: string | number | boolean, childPath?: string) => any;
 /**
  * **dataExists**
  *
  * Tests whether there is data at the given path; you may also optionally
  * provide a child path to test areas deeper than the current path.
  */
-export const dataExists = (child?: string) => _exists(child, false, false);
-
+export declare const dataExists: (child?: string) => string;
 /**
  * **dataDoesNotExist**
  *
  * Tests whether there is _a lack of_ data at the given path; you may also optionally
  * provide a child path to test areas deeper than the current path.
  */
-export const dataDoesNotExist = (child?: string) => _exists(child, false, true);
-
+export declare const dataDoesNotExist: (child?: string) => string;
 /**
  * **newDataExists**
  *
  * Tests whether there is data at the given path of **newData**; you may also optionally
  * provide a child path to test areas deeper than the current path.
  */
-export const newDataExists = (child?: string) => _exists(child, true, false);
-
+export declare const newDataExists: (child?: string) => string;
 /**
  * **newDataDoesNotExist**
  *
  * Tests whether there is _a lack of_ data with the **new** data coming in; you may also
  * optionally provide a child path to test areas deeper than the current path.
  */
-export const newDataDoesNotExist = (child?: string) =>
-  _exists(child, true, true);
-
+export declare const newDataDoesNotExist: (child?: string) => string;
 /**
  * **child**
  *
@@ -147,9 +97,7 @@ export const newDataDoesNotExist = (child?: string) =>
  * @param newValue when `true` fn provides the **new** value based
  * on the update operation; default is `false`
  */
-export const child = (propName: string, newValue: boolean = false) =>
-  `data.child(\'${propName}\')`;
-
+export declare const child: (propName: string, newValue?: boolean) => string;
 /**
  * **newChild**
  *
@@ -157,10 +105,7 @@ export const child = (propName: string, newValue: boolean = false) =>
  *
  * @param propName the property (or _property path_) off the current database path
  */
-export const newChild = (propName: string) => child(propName, true);
-
-//#endregion DATA
-
+export declare const newChild: (propName: string) => string;
 /**
  * **hasChildren**
  *
@@ -169,49 +114,36 @@ export const newChild = (propName: string) => child(propName, true);
  *
  * @param children the child nodes which you are checking
  */
-export const hasChildren = (...children: string[]) =>
-  `newData.hasChildren(${jsonArr(children)})`;
-
+export declare const hasChildren: (...children: string[]) => string;
 /**
  * Tests whether `newData` is a **string**; optionally allowing
  * for the test to be done on a child property
  */
-export const isString = (child?: string) =>
-  `newData.${child ? `child('${child}').` : ""}isString()`;
-
+export declare const isString: (child?: string) => string;
 /**
  * Tests whether `newData` is a **number**; optionally allowing
  * for the test to be done on a child property
  */
-export const isNumber = (child?: string) =>
-  `newData.${child ? `child('${child}').` : ""}isNumber()`;
-
+export declare const isNumber: (child?: string) => string;
 /**
  * Tests whether `newData` is an **integer**; optionally allowing
  * for the test to be done on a child property
  */
-export const isInteger = (child?: string) =>
-  `newData.${child ? `child('${child}').` : ""}val().matches(/^-?d+$/)`;
-
+export declare const isInteger: (child?: string) => string;
 /**
  * Tests whether `newData` is **boolean**; optionally allowing
  * for the test to be done on a child property
  */
-export const isBoolean = (child?: string) =>
-  `newData.${child ? `child('${child}').` : ""}isBoolean()`;
-
+export declare const isBoolean: (child?: string) => string;
 /**
  * Tests whether `newData` matches some regular expression; optionally allowing
  * for the test to be done on a child property
  */
-export function matches(matchRule: { child: string; regexp: RegExp } | RegExp) {
-  return matchRule instanceof RegExp
-    ? `newData.val().matches(${matchRule.toString()})`
-    : `newData.child('${matchRule.child}').val().matches(${matchRule.regexp.toString()})`
-}
-
-export const isNow = "newData.val() == now";
-
+export declare function matches(matchRule: {
+    child: string;
+    regexp: RegExp;
+} | RegExp): string;
+export declare const isNow = "newData.val() == now";
 /**
  * **validate**
  *
@@ -225,10 +157,7 @@ export const isNow = "newData.val() == now";
  * @param conditions aconditions which are wrapped into an
  * `everyCondition` claus.
  */
-export const validate = (...conditions: string[]) => ({
-  validate: everyCondition(...conditions)
-});
-
-// TODO: analyize this a bit more
-export const indexOn = (...properties: string[]) =>
-  jsonArr(properties, false, true);
+export declare const validate: (...conditions: string[]) => {
+    validate: string;
+};
+export declare const indexOn: (...properties: string[]) => any;
